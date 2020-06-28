@@ -21,7 +21,8 @@ namespace SimpleTCG.Sample
                 Console.WriteLine($"OpponentPlayer: {state.OpponentPlayer.Name}, Health: {state.OpponentPlayer.Health}, Mana: {state.OpponentPlayer.Mana}");
 
                 Console.WriteLine("Draw, use and next");
-                var hand = state.ActivePlayer.Hand;
+                var activePlayer = state.ActivePlayer;
+                var hand = activePlayer.Hand;
                 hand.Draw();
                 Console.WriteLine($"Remaining deck count: {hand.Deck.Count}");
                 Console.WriteLine(@$"Hand: {string.Join(",", hand.Select(c =>
@@ -39,7 +40,10 @@ namespace SimpleTCG.Sample
                     Console.WriteLine($"Using card: {index}");
                     var card = hand[index];
                     state.Use(card);
-                    state.Next();
+                    if (activePlayer == state.ActivePlayer)
+                    {
+                        state.Next();
+                    }
                 }
                 Console.WriteLine();
             }
